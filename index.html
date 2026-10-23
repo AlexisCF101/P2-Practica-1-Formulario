@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeBeauty - Práctica 1 Formulario</title>
+  <!-- Tailwind CSS CDN para estilos limpios y rápidos -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .tab-btn.active {
+      border-bottom: 2px solid #ec4899;
+      color: #ec4899;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Encabezado Académico / Datos del Alumno -->
+  <header class="bg-slate-900 text-white px-4 py-2 text-xs md:text-sm flex flex-wrap justify-between items-center border-b border-slate-700">
+    <div class="flex items-center space-x-2">
+      <span class="bg-pink-600 px-2 py-0.5 rounded font-bold uppercase text-[10px]">P2-Práctica 1</span>
+      <span class="font-semibold text-gray-200">Formulario con Conexión SQL</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span><strong class="text-pink-400">Alumno:</strong> Jonatan Alexis Castro Fabela</span>
+      <span><strong class="text-pink-400">Grupo:</strong> 5:J</span>
+    </div>
+  </header>
+
+  <!-- Navegación Principal -->
+  <nav class="bg-white shadow-sm border-b sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-sparkles text-pink-500 text-2xl"></i>
+        <span class="font-serif text-2xl font-bold tracking-tight text-gray-900">Luxe<span class="text-pink-500">Beauty</span></span>
+      </div>
+
+      <!-- Menú de Pestañas -->
+      <div class="hidden md:flex space-x-6 text-sm">
+        <button onclick="showTab('tienda')" id="btn-tienda" class="tab-btn active py-2">Tienda</button>
+        <button onclick="showTab('registro')" id="btn-registro" class="tab-btn py-2">Registro</button>
+        <button onclick="showTab('login')" id="btn-login" class="tab-btn py-2">Iniciar Sesión</button>
+        <button onclick="showTab('sql')" id="btn-sql" class="tab-btn py-2 text-indigo-600 font-semibold"><i class="fa-solid fa-database mr-1"></i> Ver Código SQL/PHP</button>
+      </div>
+
+      <!-- Estado de Sesión / Usuario -->
+      <div id="user-status" class="flex items-center space-x-3 text-sm">
+        <span class="text-gray-500">No has iniciado sesión</span>
+      </div>
+    </div>
+    
+    <!-- Menú móvil -->
+    <div class="flex md:hidden justify-around bg-gray-100 py-2 border-t text-xs">
+      <button onclick="showTab('tienda')" class="font-medium text-gray-700">Tienda</button>
+      <button onclick="showTab('registro')" class="font-medium text-gray-700">Registro</button>
+      <button onclick="showTab('login')" class="font-medium text-gray-700">Login</button>
+      <button onclick="showTab('sql')" class="font-medium text-indigo-600">SQL/PHP</button>
+    </div>
+  </nav>
+
+  <!-- Contenedor del Mensaje de Bienvenida Al Entrar/Iniciar Sesión -->
+  <div id="welcome-banner" class="hidden bg-emerald-500 text-white px-4 py-3 text-center shadow-inner relative transition-all">
+    <div class="max-w-4xl mx-auto flex items-center justify-center space-x-2">
+      <i class="fa-solid fa-circle-check text-xl"></i>
+      <span id="welcome-message" class="font-semibold text-lg">¡Bienvenido al sistema!</span>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-grow">
+
+    <!-- 1. VISTA TIENDA -->
+    <section id="tab-tienda" class="tab-content">
+      <div class="mb-6 border-b pb-4">
+        <h1 class="text-2xl font-serif font-bold text-gray-800">Catálogo de Cosméticos LuxeBeauty</h1>
+        <p class="text-gray-500 text-sm">Selecciona productos de alta gama y simula tu compra en nuestra base de datos.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- Producto 1 -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+          <img src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&auto=format&fit=crop&q=80" alt="Labial Matte Luxe" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <span class="text-xs font-bold text-pink-500 uppercase tracking-wider">Cosméticos</span>
+            <h3 class="font-semibold text-lg text-gray-800">Labial Matte Velvet Rose</h3>
+            <p class="text-gray-500 text-sm mt-1">Larga duración con acabado aterciopelado e hidratación profunda.</p>
+            <div class="mt-4 flex justify-between items-center">
+              <span class="text-xl font-bold text-gray-900">$350.00 MXN</span>
+              <button onclick="simularCompra('Labial Matte Velvet Rose', 350)" class="bg-slate-900 text-white text-xs px-3 py-2 rounded hover:bg-pink-600 transition">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&auto=format&fit=crop&q=80" alt="Sérum Facial" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <span class="text-xs font-bold text-pink-500 uppercase tracking-wider">Cuidado Facial</span>
+            <h3 class="font-semibold text-lg text-gray-800">Sérum Iluminador Vitamina C</h3>
+            <p class="text-gray-500 text-sm mt-1">Fórmula antioxidante regeneradora para un brillo natural constante.</p>
+            <div class="mt-4 flex justify-between items-center">
+              <span class="text-xl font-bold text-gray-900">$680.00 MXN</span>
+              <button onclick="simularCompra('Sérum Vitamina C', 680)" class="bg-slate-900 text-white text-xs px-3 py-2 rounded hover:bg-pink-600 transition">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&auto=format&fit=crop&q=80" alt="Paleta Sombras" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <span class="text-xs font-bold text-pink-500 uppercase tracking-wider">Maquillaje</span>
+            <h3 class="font-semibold text-lg text-gray-800">Paleta de Sombras Golden Nude</h3>
+            <p class="text-gray-500 text-sm mt-1">12 tonos ultra pigmentados con terminados mate y satinados.</p>
+            <div class="mt-4 flex justify-between items-center">
+              <span class="text-xl font-bold text-gray-900">$520.00 MXN</span>
+              <button onclick="simularCompra('Paleta Golden Nude', 520)" class="bg-slate-900 text-white text-xs px-3 py-2 rounded hover:bg-pink-600 transition">Comprar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. VISTA REGISTRO DE USUARIO -->
+    <section id="tab-registro" class="tab-content hidden max-w-lg mx-auto">
+      <div class="bg-white p-6 rounded-lg border shadow-sm">
+        <h2 class="text-xl font-bold text-gray-800 mb-1">Registro de Nuevo Usuario</h2>
+        <p class="text-xs text-gray-500 mb-6">Crea tu cuenta para guardar tus datos en la BD MySQL.</p>
+
+        <form id="form-registro" onsubmit="registrarUsuario(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Nombre Completo *</label>
+            <input type="text" id="reg-nombre" required placeholder="Ej. Jonatan Castro" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Correo Electrónico *</label>
+            <input type="email" id="reg-email" required placeholder="correo@ejemplo.com" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Teléfono *</label>
+            <input type="tel" id="reg-telefono" required placeholder="656 123 4567" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Contraseña *</label>
+            <input type="password" id="reg-password" required placeholder="••••••••" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+          </div>
+
+          <button type="submit" class="w-full bg-pink-600 text-white font-medium py-2 rounded text-sm hover:bg-pink-700 transition">
+            <i class="fa-solid fa-user-plus mr-1"></i> Guardar Registro en BD
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 3. VISTA INICIO DE SESIÓN -->
+    <section id="tab-login" class="tab-content hidden max-w-sm mx-auto">
+      <div class="bg-white p-6 rounded-lg border shadow-sm">
+        <h2 class="text-xl font-bold text-gray-800 mb-1">Iniciar Sesión</h2>
+        <p class="text-xs text-gray-500 mb-6">Ingresa con tus credenciales registradas.</p>
+
+        <form id="form-login" onsubmit="iniciarSesion(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Correo Electrónico</label>
+            <input type="email" id="login-email" required placeholder="correo@ejemplo.com" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Contraseña</label>
+            <input type="password" id="login-password" required placeholder="••••••••" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-pink-500">
+          </div>
+
+          <button type="submit" class="w-full bg-slate-900 text-white font-medium py-2 rounded text-sm hover:bg-slate-800 transition">
+            <i class="fa-solid fa-right-to-bracket mr-1"></i> Entrar al Sistema
+          </button>
+        </form>
+
+        <p class="text-xs text-center text-gray-500 mt-4">¿No tienes cuenta? <a href="#" onclick="showTab('registro')" class="text-pink-600 underline">Regístrate aquí</a></p>
+      </div>
+    </section>
+
+    <!-- 4. VISTA CÓDIGO TÉCNICO (SQL / PHP) PARA ENTREGABLE -->
+    <section id="tab-sql" class="tab-content hidden space-y-6">
+      <div class="border-b pb-4">
+        <h2 class="text-2xl font-bold text-gray-800">Código Backend & Base de Datos SQL</h2>
+        <p class="text-sm text-gray-500">Estructura utilizada para conectar el formulario a la base de datos MySQL mediante PHP.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Script SQL -->
+        <div class="bg-slate-900 text-gray-200 p-4 rounded-lg font-mono text-xs overflow-x-auto">
+          <div class="flex justify-between items-center border-b border-slate-700 pb-2 mb-3">
+            <span class="text-pink-400 font-bold">1. Base de Datos (schema.sql)</span>
+            <span class="text-gray-500">MySQL</span>
+          </div>
+          <pre><code>-- Crear la Base de Datos
+CREATE DATABASE IF NOT EXISTS luxe_beauty_db;
+USE luxe_beauty_db;
+
+-- Tabla de Usuarios
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Consulta de Inserción
+INSERT INTO usuarios (nombre, email, telefono, password) 
+VALUES ('Jonatan Castro', 'jonatan@ejemplo.com', '6561234567', 'hash_password');</code></pre>
+        </div>
+
+        <!-- Código PHP -->
+        <div class="bg-slate-900 text-gray-200 p-4 rounded-lg font-mono text-xs overflow-x-auto">
+          <div class="flex justify-between items-center border-b border-slate-700 pb-2 mb-3">
+            <span class="text-emerald-400 font-bold">2. Conexión y Registro (registro.php)</span>
+            <span class="text-gray-500">PHP PDO</span>
+          </div>
+          <pre><code>&lt;?php
+// Conexion a la base de datos MySQL
+$host = "localhost";
+$db   = "luxe_beauty_db";
+$user = "root";
+$pass = "";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nombre   = $_POST['nombre'];
+        $email    = $_POST['email'];
+        $telefono = $_POST['telefono'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO usuarios (nombre, email, telefono, password) 
+                VALUES (?, ?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$nombre, $email, $telefono, $password]);
+
+        echo "Registro exitoso en la BD";
+    }
+} catch (PDOException $e) {
+    echo "Error de conexión: " . $e->getMessage();
+}
+?&gt;</code></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer con Créditos Requeridos -->
+  <footer class="bg-white border-t py-4 text-center text-xs text-gray-500">
+    <p>LuxeBeauty © 2026 - Práctica de Formularios y Conexión SQL</p>
+    <p class="font-medium text-gray-700 mt-1">Elaborado por: <span class="text-pink-600 font-bold">Jonatan Alexis Castro Fabela</span> | Grupo: <span class="text-pink-600 font-bold">5:J</span></p>
+  </footer>
+
+  <!-- LÓGICA JAVASCRIPT SIMPLE -->
+  <script>
+    // Variables de estado
+    let usuarioActual = null;
+
+    // Cambiar de pestañas
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      document.getElementById('btn-' + tabId).classList.add('active');
+    }
+
+    // Registrar Usuario
+    function registrarUsuario(event) {
+      event.preventDefault();
+      
+      const nombre = document.getElementById('reg-nombre').value;
+      const email = document.getElementById('reg-email').value;
+
+      // Guardar datos en memoria para simulación
+      usuarioActual = { nombre, email };
+
+      // Limpiar formulario
+      document.getElementById('form-registro').reset();
+
+      // Mostrar mensaje de bienvenida al registrar
+      mostrarBienvenida(`¡Bienvenido/a de nuevo, ${nombre}! Tu cuenta ha sido registrada con éxito.`);
+      
+      // Actualizar interfaz de usuario
+      actualizarEstadoUsuario();
+      showTab('tienda');
+    }
+
+    // Iniciar Sesión
+    function iniciarSesion(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('login-email').value;
+      // Extraer nombre del email si no existe registro previo
+      const nombreEjemplo = email.split('@')[0];
+      const nombre = usuarioActual ? usuarioActual.nombre : (nombreEjemplo.charAt(0).toUpperCase() + nombreEjemplo.slice(1));
+
+      usuarioActual = { nombre, email };
+
+      // Limpiar formulario
+      document.getElementById('form-login').reset();
+
+      // Mostrar mensaje de bienvenida obligatorio
+      mostrarBienvenida(`¡Bienvenido/a de nuevo, ${nombre}! Haz iniciado sesión correctamente.`);
+
+      actualizarEstadoUsuario();
+      showTab('tienda');
+    }
+
+    // Simular compra
+    function simularCompra(producto, precio) {
+      if(!usuarioActual) {
+        alert('Por favor inicia sesión o regístrate para comprar.');
+        showTab('login');
+        return;
+      }
+      alert(`¡Gracias por tu compra, ${usuarioActual.nombre}!\n\nProducto: ${producto}\nPrecio: $${precio}.00 MXN\nRegistrado en la BD.`);
+    }
+
+    // Mostrar Banner de Bienvenida
+    function mostrarBienvenida(mensaje) {
+      const banner = document.getElementById('welcome-banner');
+      const textNode = document.getElementById('welcome-message');
+
+      textNode.textContent = mensaje;
+      banner.classList.remove('hidden');
+
+      // Ocultar automáticamente tras 5 segundos
+      setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 5000);
+    }
+
+    // Actualizar nombre en la barra superior
+    function actualizarEstadoUsuario() {
+      const userStatusDiv = document.getElementById('user-status');
+      if (usuarioActual) {
+        userStatusDiv.innerHTML = `
+          <span class="text-gray-800 font-medium"><i class="fa-solid fa-user-circle text-pink-500 mr-1"></i> ${usuarioActual.nombre}</span>
+          <button onclick="cerrarSesion()" class="text-xs text-red-500 underline ml-2">Salir</button>
+        `;
+      } else {
+        userStatusDiv.innerHTML = `<span class="text-gray-500">No has iniciado sesión</span>`;
+      }
+    }
+
+    // Cerrar Sesión
+    function cerrarSesion() {
+      usuarioActual = null;
+      actualizarEstadoUsuario();
+      alert('Sesión cerrada.');
+    }
+  </script>
+</body>
+</html>
